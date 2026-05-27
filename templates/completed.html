@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Completed Complaints</title>
+
+</head>
+
+<body>
+
+    
+
+    {% for complaint in complaints %}
+
+    <div style="
+    border:1px solid black;
+    padding:10px;
+    margin:10px;">
+
+        <h3>Name : {{ complaint[1] }}</h3>
+
+        <p>Phone : {{ complaint[2] }}</p>
+
+        <p>Type : {{ complaint[3] }}</p>
+
+        <p>Location : {{ complaint[4] }}</p>
+
+        <p>Description : {{ complaint[5] }}</p>
+
+        <p>Status : {{ complaint[6] }}</p>
+
+    </div>
+
+    {% endfor %}
+    <h1>
+    Completed Complaints :
+    {{ completed_count }}
+</h1>
+
+</body>
+
+</html>

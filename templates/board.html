@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='board.css') }}">
+
+    <style>
+
+        .box{
+            background:white;
+            padding:20px;
+            margin-top:20px;
+            border-radius:10px;
+            box-shadow:0 0 5px gray;
+        }
+
+        .status-btn{
+            border:none;
+            padding:10px 20px;
+            border-radius:5px;
+            color:white;
+            margin-bottom:10px;
+        }
+
+        .pending{
+            background:red;
+        }
+
+        .solved{
+            background:green;
+        }
+
+        .complete-btn{
+            background:blue;
+            color:white;
+            border:none;
+            padding:10px 20px;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <div class="sidebar">
+
+        <h2>Dashboard</h2>
+
+        <a href="#">Home</a>
+
+        <a href="/details">Complaints</a>
+
+    </div>
+
+    <!-- MAIN CONTENT -->
+
+    <div class="main">
+
+        <h1>Complaint Dashboard</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Total Complaints</h3>
+                <p id="total">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Pending</h3>
+                <p id="pending">0</p>
+            </div>
+
+            <div class="card">
+                <h3>Solved</h3>
+                <p id="solved">0</p>
+            </div>
+  {% for complaint in complaints %}
+
+        <div class="box">
+
+            <h3>Name : {{ complaint[1] }}</h3>
+
+            <p>Phone : {{ complaint[2] }}</p>
+
+            <p>Type : {{ complaint[3] }}</p>
+
+            <p>Location : {{ complaint[4] }}</p>
+
+            <h4>Status :</h4>
+
+            {% if complaint[5] == 'Pending' %}
+
+                <button class="status-btn pending">
+
+                    Pending
+
+                </button>
+
+            {% else %}
+
+                <button class="status-btn solved">
+
+                    Solved
+
+                </button>
+
+            {% endif %}
+
+            <br><br>
+
+            <form action="/completed/{{ complaint[0] }}"
+            method="POST">
+
+                <button class="complete-btn">
+
+                    Complete Complaint
+
+                </button>
+
+            </form>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+        </div>
+
+        <!-- COMPLAINTS -->
+
+      
+
+    <script src="{{ url_for('static',
+    filename='board.js') }}"></script>
+
+</body>
+
+</html>

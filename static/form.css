@@ -1,0 +1,187 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+
+    margin: 0;
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+body{
+
+    font-family: 'Poppins', sans-serif;
+
+    background: linear-gradient(to right, #eef2f7, #dbe6f6);
+
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 30px;
+}
+
+/* Container */
+
+.container{
+
+    width: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Form Box */
+
+.form-box{
+
+    width: 500px;
+
+    background: white;
+
+    padding: 40px;
+
+    border-radius: 25px;
+
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Heading */
+
+.form-box h1{
+
+    text-align: center;
+
+    color: #2b2d42;
+
+    margin-bottom: 35px;
+
+    font-size: 32px;
+
+    font-weight: 700;
+}
+
+.form-box h1 i{
+
+    color: #2563eb;
+
+    margin-right: 10px;
+}
+
+/* Input Box */
+
+.input-box{
+
+    display: flex;
+
+    flex-direction: column;
+
+    margin-bottom: 22px;
+}
+
+.input-box label{
+
+    margin-bottom: 8px;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    color: #444;
+}
+
+/* Inputs */
+
+.input-box input,
+.input-box select,
+.input-box textarea{
+
+    padding: 14px 16px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 12px;
+
+    outline: none;
+
+    font-size: 15px;
+
+    transition: 0.3s;
+}
+
+.input-box input:focus,
+.input-box select:focus,
+.input-box textarea:focus{
+
+    border-color: #2563eb;
+
+    box-shadow: 0 0 8px rgba(37,99,235,0.2);
+}
+
+/* Textarea */
+
+textarea{
+
+    resize: none;
+}
+
+/* File Upload */
+
+input[type="file"]{
+
+    padding: 10px;
+
+    background: #f8fafc;
+}
+
+/* Button */
+
+button{
+
+    width: 100%;
+
+    padding: 15px;
+
+    border: none;
+
+    border-radius: 14px;
+
+    background: #2563eb;
+
+    color: white;
+
+    font-size: 17px;
+
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+button:hover{
+
+    background: #1d4ed8;
+
+    transform: translateY(-2px);
+}
+
+/* Responsive */
+
+@media(max-width: 600px){
+
+    .form-box{
+
+        width: 100%;
+
+        padding: 30px 20px;
+    }
+
+    .form-box h1{
+
+        font-size: 26px;
+    }
+}

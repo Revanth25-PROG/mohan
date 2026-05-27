@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Dashboard</title>
+
+    <!-- CSS -->
+<link rel="stylesheet"
+      href="{{ url_for('static', filename='homes.css') }}">
+
+    <!-- Icons -->
+
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+
+<body>
+
+    <div class="report">
+
+        <!-- Sidebar -->
+
+        <div class="sidebar-menu">
+
+           
+
+            <a href="/user">
+                <i class="fa-solid fa-file-circle-exclamation"></i>
+                Complaints
+            </a>
+
+
+        <a href="/form">
+
+    New Complaint
+
+</a>
+        </div>
+
+        <!-- Main Content -->
+
+        <div class="main-content">
+
+            <!-- Header -->
+
+            <div class="top-title">
+
+                <i class="fa-solid fa-folder-open"></i>
+
+                <h2>My Complaints</h2>
+
+            </div>
+
+            <p class="description">
+                Manage your active and completed complaints easily from one dashboard.
+            </p>
+
+            <!-- Complaint Cards -->
+
+            <div class="cards">
+
+                <!-- Card 1 -->
+
+                <div class="card high">
+
+                    <span class="status">High</span>
+
+                    <h3>Road Damage</h3>
+
+                    <p>
+                        Large potholes near highway causing accidents and traffic issues.
+                    </p>
+
+                    <a href="/form" class="card-btn">
+
+                        Register Complaint
+
+                    </a>
+
+                </div>
+
+                <!-- Card 2 -->
+
+                <div class="card low">
+
+                    <span class="status">Low</span>
+
+                    <h3>Street Light</h3>
+
+                    <p>
+                        Street light not working properly near colony entrance.
+                    </p>
+
+                    <a href="/form" class="card-btn">
+
+                        Register Complaint
+
+                    </a>
+
+                </div>
+
+                <!-- Card 3 -->
+
+                <div class="card low">
+
+                    <span class="status">Low</span>
+
+                    <h3>Garbage Issue</h3>
+
+                    <p>
+                        Garbage collection delay in residential area for 3 days.
+                    </p>
+
+                    <a href="/form" class="card-btn">
+
+                        Register Complaint
+
+                    </a>
+
+                </div>
+
+                <!-- Card 4 -->
+
+                <div class="card high">
+
+                    <span class="status">High</span>
+
+                    <h3>Water Leakage</h3>
+
+                    <p>
+                        Pipeline leakage causing water wastage on main road.
+                    </p>
+
+                    <a href="/form" class="card-btn">
+
+                        Register Complaint
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Right Side Panel -->
+
+        <div class="profile">
+
+            <img src="https://i.pravatar.cc/150?img=12" alt="profile">
+
+            <h3>ANUPAMA</h3>
+
+            <p>anupamashantu@gmail.com</p>
+
+            <!-- Complaint Details -->
+
+            <div class="details-box">
+
+                <h4>Complaint Details</h4>
+
+                <p><strong>Title:</strong> Road Damage</p>
+
+                <p><strong>Status:</strong> Active</p>
+
+                <p><strong>Priority:</strong> High</p>
+
+                <p>
+                    Large potholes near highway causing accidents and traffic issues.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Complaint Form</title>
+
+   <link rel="stylesheet"
+href="{{ url_for('static', filename='form.css') }}">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div class="form-box">
+
+            <h1>
+                <i class="fa-solid fa-file-circle-plus"></i>
+                Register Complaint
+            </h1>
+
+            <form action="/submit" method="POST">
+
+                <!-- Name -->
+
+                <div class="input-box">
+
+                    <label>Full Name</label>
+
+                    <input type="text"
+                    name="name"
+                    placeholder="Enter your name"
+                    required>
+
+                </div>
+
+                <!-- Phone -->
+
+                <div class="input-box">
+
+                    <label>Phone Number</label>
+
+                    <input type="tel"
+                    name="phone"
+                    placeholder="Enter phone number"
+                    required>
+
+                </div>
+
+                <!-- Complaint Type -->
+
+                <div class="input-box">
+
+                    <label>Complaint Type</label>
+
+                    <select name="complaint_type" required>
+
+                        <option value="">-- Select Type --</option>
+
+                        <option value="Road Damage">Road Damage</option>
+
+                        <option value="Water Leakage">Water Leakage</option>
+
+                        <option value="Garbage Issue">Garbage Issue</option>
+
+                        <option value="Street Light">Street Light</option>
+
+                        <option value="Electricity">Electricity</option>
+
+                    </select>
+
+                </div>
+
+                <!-- Location -->
+
+                <div class="input-box">
+
+                    <label>Location</label>
+
+                    <input type="text"
+                    name="location"
+                    placeholder="Enter complaint location"
+                    required>
+
+                </div>
+
+                <!-- Description -->
+
+                <div class="input-box">
+
+                    <label>Description</label>
+
+                    <textarea rows="5"
+                    name="description"
+                    placeholder="Describe the complaint"
+                    required></textarea>
+
+                </div>
+
+                <!-- Submit -->
+
+                <button type="submit">
+
+                    Submit Complaint
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
