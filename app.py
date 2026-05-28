@@ -1,5 +1,6 @@
 import os
-import psycopg2
+import ssl
+import pg8000.dbapi
 from dotenv import load_dotenv
 
 from flask import (
@@ -32,14 +33,20 @@ def get_db():
         db_name = os.environ.get("DB_NAME", "postgres")
         db_user = os.environ.get("DB_USER", "postgres")
         db_password = os.environ.get("DB_PASSWORD", "REVANTH@206")
-        db_port = os.environ.get("DB_PORT", "5432")
-        g.db = psycopg2.connect(
+        db_port = int(os.environ.get("DB_PORT", "5432"))
+        
+        # Enforce SSL context for secure connection in serverless environment
+        ssl_context = ssl.create_default_context()
+        ssl_context.check_hostname = False
+        ssl_context.verify_mode = ssl.CERT_NONE
+        
+        g.db = pg8000.dbapi.connect(
             host=db_host,
             database=db_name,
             user=db_user,
             password=db_password,
             port=db_port,
-            sslmode="require"
+            ssl_context=ssl_context
         )
     return g.db
 
@@ -80,7 +87,8 @@ def adminlogin():
     password = request.form['password']
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute("""
 
             SELECT *
@@ -93,6 +101,8 @@ def adminlogin():
         """, (username, password))
 
         admin = cur.fetchone()
+    finally:
+        cur.close()
 
     if admin:
 
@@ -138,7 +148,8 @@ def submit():
     description = request.form['description']
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute("""
 
             INSERT INTO complaints(
@@ -164,6 +175,8 @@ def submit():
             "Pending"
 
         ))
+    finally:
+        cur.close()
 
     db.commit()
 
@@ -186,7 +199,8 @@ def board():
 def get_counts():
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute(
             "SELECT COUNT(*) FROM complaints"
         )
@@ -204,6 +218,8 @@ def get_counts():
         )
 
         solved = cur.fetchone()[0]
+    finally:
+        cur.close()
 
     return jsonify({
 
@@ -223,12 +239,15 @@ def get_counts():
 def details():
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute(
             "SELECT * FROM complaints"
         )
 
         complaints = cur.fetchall()
+    finally:
+        cur.close()
 
     return render_template(
 
@@ -246,7 +265,8 @@ def details():
 def completed():
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute("""
 
             SELECT COUNT(*)
@@ -270,6 +290,8 @@ def completed():
         """)
 
         complaints = cur.fetchall()
+    finally:
+        cur.close()
 
     return render_template(
 
@@ -295,7 +317,8 @@ def user():
         name = request.form['name']
 
         db = get_db()
-        with db.cursor() as cur:
+        cur = db.cursor()
+        try:
             cur.execute("""
 
                 SELECT *
@@ -307,6 +330,8 @@ def user():
             """, (name,))
 
             complaints = cur.fetchall()
+        finally:
+            cur.close()
 
     return render_template(
 
@@ -324,7 +349,8 @@ def user():
 def solve(id):
 
     db = get_db()
-    with db.cursor() as cur:
+    cur = db.cursor()
+    try:
         cur.execute("""
 
             UPDATE complaints
@@ -334,6 +360,8 @@ def solve(id):
             WHERE id=%s
 
         """, (id,))
+    finally:
+        cur.close()
 
     db.commit()
 
