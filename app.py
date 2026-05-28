@@ -24,6 +24,7 @@ if not os.environ.get("DB_HOST"):
 # =========================
 
 app = Flask(__name__)
+# Flask App Initialization (Rebuild Trigger)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "smart_community_secret_key_9876")
 
 import traceback
