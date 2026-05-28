@@ -100,15 +100,29 @@
 
             <p>Location : {{ complaint[4] }}</p>
 
+            <p>Description : {{ complaint[5] }}</p>
+
             <h4>Status :</h4>
 
-            {% if complaint[5] == 'Pending' %}
+            {% if complaint[6] == 'Pending' %}
 
                 <button class="status-btn pending">
 
                     Pending
 
                 </button>
+
+                <br><br>
+
+                <form action="/completed/{{ complaint[0] }}" method="POST">
+
+                    <button class="complete-btn">
+
+                        Complete Complaint
+
+                    </button>
+
+                </form>
 
             {% else %}
 
@@ -118,20 +132,11 @@
 
                 </button>
 
+                {% if complaint[8] %}
+                    <p style="margin-top: 10px;"><b>Resolved By :</b> {{ complaint[8] }}</p>
+                {% endif %}
+
             {% endif %}
-
-            <br><br>
-
-            <form action="/completed/{{ complaint[0] }}"
-            method="POST">
-
-                <button class="complete-btn">
-
-                    Complete Complaint
-
-                </button>
-
-            </form>
 
         </div>
 

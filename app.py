@@ -9,7 +9,9 @@ from flask import (
     request,
     redirect,
     jsonify,
-    g
+    g,
+    session,
+    url_for
 )
 
 # Load environment variables
@@ -22,6 +24,7 @@ if not os.environ.get("DB_HOST"):
 # =========================
 
 app = Flask(__name__)
+app.secret_key = os.environ.get("FLASK_SECRET_KEY", "smart_community_secret_key_9876")
 
 # =========================
 # SUPABASE CONNECTION
@@ -105,12 +108,22 @@ def adminlogin():
         cur.close()
 
     if admin:
-
+        session['admin_id'] = admin[0]
+        session['admin_username'] = admin[1]
         return redirect('/board')
 
     else:
 
         return "Invalid Username or Password"
+
+# =========================
+# ADMIN LOGOUT
+# =========================
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 # =========================
 # HOME PAGE
@@ -180,7 +193,7 @@ def submit():
 
     db.commit()
 
-    return "Complaint Submitted Successfully"
+    return render_template("success.html", message="Complaint Submitted Successfully")
 
 # =========================
 # DASHBOARD PAGE
@@ -188,8 +201,21 @@ def submit():
 
 @app.route('/board')
 def board():
-
-    return render_template("board.html")
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute("""
+            SELECT 
+                c.id, c.name, c.phone, c.complaint_type, c.location, 
+                c.description, c.status, c.image, a.username 
+            FROM complaints c
+            LEFT JOIN admin a ON c.resolved_by = a.id
+            ORDER BY c.id DESC
+        """)
+        complaints = cur.fetchall()
+    finally:
+        cur.close()
+    return render_template("board.html", complaints=complaints)
 
 # =========================
 # GET COUNTS
@@ -241,9 +267,14 @@ def details():
     db = get_db()
     cur = db.cursor()
     try:
-        cur.execute(
-            "SELECT * FROM complaints"
-        )
+        cur.execute("""
+            SELECT 
+                c.id, c.name, c.phone, c.complaint_type, c.location, 
+                c.description, c.status, c.image, a.username 
+            FROM complaints c
+            LEFT JOIN admin a ON c.resolved_by = a.id
+            ORDER BY c.id DESC
+        """)
 
         complaints = cur.fetchall()
     finally:
@@ -281,11 +312,13 @@ def completed():
 
         cur.execute("""
 
-            SELECT *
-
-            FROM complaints
-
-            WHERE status='Solved'
+            SELECT 
+                c.id, c.name, c.phone, c.complaint_type, c.location, 
+                c.description, c.status, c.image, a.username 
+            FROM complaints c
+            LEFT JOIN admin a ON c.resolved_by = a.id
+            WHERE c.status='Solved'
+            ORDER BY c.id DESC
 
         """)
 
@@ -321,11 +354,13 @@ def user():
         try:
             cur.execute("""
 
-                SELECT *
-
-                FROM complaints
-
-                WHERE name=%s
+                SELECT 
+                    c.id, c.name, c.phone, c.complaint_type, c.location, 
+                    c.description, c.status, c.image, a.username 
+                FROM complaints c
+                LEFT JOIN admin a ON c.resolved_by = a.id
+                WHERE c.name=%s
+                ORDER BY c.id DESC
 
             """, (name,))
 
@@ -342,12 +377,13 @@ def user():
     )
 
 # =========================
-# SOLVE COMPLAINT
+# SOLVE COMPLAINT (GET)
 # =========================
 
 @app.route('/solve/<int:id>')
 def solve(id):
 
+    admin_id = session.get('admin_id', 1)
     db = get_db()
     cur = db.cursor()
     try:
@@ -355,17 +391,44 @@ def solve(id):
 
             UPDATE complaints
 
-            SET status='Solved'
+            SET status='Solved', resolved_by=%s
 
             WHERE id=%s
 
-        """, (id,))
+        """, (admin_id, id))
     finally:
         cur.close()
 
     db.commit()
 
     return redirect('/details')
+
+# =========================
+# COMPLETE COMPLAINT (POST)
+# =========================
+
+@app.route('/completed/<int:id>', methods=['POST'])
+def complete_complaint(id):
+
+    admin_id = session.get('admin_id', 1)
+    db = get_db()
+    cur = db.cursor()
+    try:
+        cur.execute("""
+
+            UPDATE complaints
+
+            SET status='Solved', resolved_by=%s
+
+            WHERE id=%s
+
+        """, (admin_id, id))
+    finally:
+        cur.close()
+
+    db.commit()
+
+    return redirect('/board')
 
 # =========================
 # RUN FLASK

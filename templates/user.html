@@ -19,7 +19,9 @@
     <div style="
     border:1px solid black;
     padding:10px;
-    margin:10px;">
+    margin:10px;
+    border-radius:5px;
+    background-color:#fafafa;">
 
         <h3>Name : {{ complaint[1] }}</h3>
 
@@ -32,6 +34,10 @@
         <p>Description : {{ complaint[5] }}</p>
 
         <p>Status : {{ complaint[6] }}</p>
+
+        {% if complaint[8] %}
+            <p><b>Resolved By :</b> {{ complaint[8] }}</p>
+        {% endif %}
 
     </div>
 
