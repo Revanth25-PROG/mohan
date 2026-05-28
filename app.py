@@ -26,6 +26,16 @@ if not os.environ.get("DB_HOST"):
 app = Flask(__name__)
 app.secret_key = os.environ.get("FLASK_SECRET_KEY", "smart_community_secret_key_9876")
 
+import traceback
+
+@app.errorhandler(500)
+def handle_500(e):
+    return f"<h1>Internal Server Error (500)</h1><pre>{traceback.format_exc()}</pre>", 500
+
+@app.errorhandler(Exception)
+def handle_exception(e):
+    return f"<h1>Unhandled Exception</h1><pre>{traceback.format_exc()}</pre>", 500
+
 # =========================
 # SUPABASE CONNECTION
 # =========================
